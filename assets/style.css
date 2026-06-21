@@ -1,0 +1,715 @@
+:root{
+  --paper:#F2EBDA;
+  --paper-card:#FAF6EC;
+  --ink:#3A3530;
+  --ink-soft:#6b6258;
+  --seal:#8C1F28;
+  --seal-soft:#b0524f;
+  --pine:#3F4A3A;
+  --pine-soft:#5c6b54;
+  --line:#cabe9f;
+  --line-soft:#ddd3b8;
+  --gold:#a8893f;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Noto Serif TC", serif;
+  min-height:100vh;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(140,31,40,0.025) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(63,74,58,0.03) 0%, transparent 50%);
+}
+
+/* texture overlay */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:0.4;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.008) 3px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.008) 3px);
+  z-index:1;
+}
+
+/* ===== HEADER ===== */
+.masthead{
+  position:relative;
+  padding:48px 24px 32px;
+  text-align:center;
+  border-bottom:3px double var(--ink);
+  margin:0 16px;
+}
+.masthead .eyebrow{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12px;
+  letter-spacing:0.35em;
+  color:var(--seal);
+  margin-bottom:14px;
+  font-weight:500;
+}
+.masthead h1{
+  font-size:clamp(34px, 7vw, 56px);
+  margin:0;
+  font-weight:900;
+  letter-spacing:0.12em;
+  line-height:1.3;
+  writing-mode:horizontal-tb;
+}
+.masthead .sub{
+  margin-top:10px;
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:14px;
+  color:var(--ink-soft);
+  letter-spacing:0.08em;
+}
+.masthead .author-tag{
+  display:inline-block;
+  margin-top:18px;
+  padding:4px 18px;
+  border:1px solid var(--ink);
+  font-size:13px;
+  letter-spacing:0.3em;
+  font-family:"Noto Sans TC", sans-serif;
+}
+.seal-mark{
+  position:absolute;
+  top:36px;
+  right:32px;
+  width:58px;
+  height:58px;
+  border:2.5px solid var(--seal);
+  border-radius:4px;
+  color:var(--seal);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:0.1em;
+  writing-mode:vertical-rl;
+  transform:rotate(0.5deg);
+  opacity:0.85;
+}
+@media (max-width:640px){
+  .seal-mark{display:none;}
+}
+
+/* back-to-hub link */
+.home-link{
+  position:absolute;
+  top:40px;
+  left:32px;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12.5px;
+  letter-spacing:0.05em;
+  color:var(--ink-soft);
+  text-decoration:none;
+  border:1px solid var(--line);
+  padding:5px 14px;
+  border-radius:14px;
+  transition:all 0.2s ease;
+}
+.home-link:hover{
+  color:var(--seal);
+  border-color:var(--seal-soft);
+  background:var(--paper-card);
+}
+@media (max-width:640px){
+  .home-link{position:static; display:inline-flex; margin-bottom:14px;}
+}
+
+/* ===== LAYOUT ===== */
+.shell{
+  max-width:1100px;
+  margin:0 auto;
+  padding:28px 16px 80px;
+  position:relative;
+  z-index:2;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:160px 1fr;
+  gap:0;
+  align-items:start;
+}
+@media (max-width:760px){
+  .layout{grid-template-columns:1fr;}
+}
+
+/* ===== TAB RAIL (book spine tabs) ===== */
+.tab-rail{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  position:sticky;
+  top:20px;
+}
+@media (max-width:760px){
+  .tab-rail{
+    position:static;
+    flex-direction:row;
+    overflow-x:auto;
+    gap:6px;
+    padding-bottom:10px;
+    margin-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+}
+
+.tab-btn{
+  font-family:"Noto Serif TC", serif;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-right:none;
+  color:var(--ink-soft);
+  text-align:left;
+  padding:16px 10px 16px 14px;
+  cursor:pointer;
+  font-size:15px;
+  letter-spacing:0.15em;
+  line-height:1.6;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  min-height:140px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  transition:all 0.25s ease;
+  border-radius:6px 0 0 6px;
+}
+.tab-btn .num{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:11px;
+  color:var(--gold);
+  margin-bottom:8px;
+  letter-spacing:0;
+}
+.tab-btn:hover{
+  background:var(--paper-card);
+  color:var(--ink);
+}
+.tab-btn.active{
+  background:var(--paper-card);
+  color:var(--seal);
+  border-color:var(--seal-soft);
+  font-weight:700;
+  box-shadow:inset 3px 0 0 var(--seal);
+}
+@media (max-width:760px){
+  .tab-btn{
+    writing-mode:horizontal-tb;
+    min-height:auto;
+    padding:10px 16px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .tab-btn.active{box-shadow:none; background:var(--seal); color:var(--paper-card); border-color:var(--seal);}
+  .tab-btn .num{display:none;}
+}
+
+/* ===== PANEL ===== */
+.panel-wrap{
+  background:var(--paper-card);
+  border:1px solid var(--line);
+  border-radius:2px 10px 10px 10px;
+  padding:36px clamp(18px,4vw,52px);
+  min-height:500px;
+  box-shadow:0 2px 18px rgba(58,53,48,0.06);
+}
+@media (max-width:760px){
+  .panel-wrap{border-radius:10px; padding:24px 18px;}
+}
+
+.panel{display:none;}
+.panel.active{display:block; animation:fadeIn 0.35s ease;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+.panel-title{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin-bottom:6px;
+  flex-wrap:wrap;
+}
+.panel-title h2{
+  font-size:clamp(24px,4vw,32px);
+  margin:0;
+  font-weight:700;
+  letter-spacing:0.06em;
+}
+.panel-title .tag{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12px;
+  color:var(--pine);
+  border:1px solid var(--pine-soft);
+  padding:2px 10px;
+  border-radius:12px;
+  letter-spacing:0.05em;
+}
+.panel-desc{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:13.5px;
+  color:var(--ink-soft);
+  margin:6px 0 28px;
+  line-height:1.8;
+  border-bottom:1px dashed var(--line);
+  padding-bottom:24px;
+}
+
+/* ===== Generic content blocks ===== */
+.block{
+  margin-bottom:36px;
+}
+.block:last-child{margin-bottom:0;}
+
+.block-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.block-head .dot{
+  width:8px;height:8px;
+  background:var(--seal);
+  border-radius:50%;
+  flex-shrink:0;
+}
+.block-head h3{
+  font-size:19px;
+  margin:0;
+  font-weight:700;
+  letter-spacing:0.04em;
+}
+.block-head h3 small{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12px;
+  color:var(--ink-soft);
+  font-weight:400;
+  margin-left:8px;
+}
+
+.prose{
+  font-size:15.5px;
+  line-height:2.05;
+  color:var(--ink);
+}
+.prose p{margin:0 0 14px;}
+.prose strong{color:var(--seal); font-weight:700;}
+.prose .pine{color:var(--pine); font-weight:600;}
+
+/* quote / highlight card */
+.quote-card{
+  background:linear-gradient(135deg, rgba(63,74,58,0.05), rgba(63,74,58,0.01));
+  border-left:3px solid var(--pine);
+  padding:16px 20px;
+  margin:18px 0;
+  border-radius:0 8px 8px 0;
+  font-size:15px;
+  line-height:1.9;
+}
+.quote-card cite{
+  display:block;
+  margin-top:8px;
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12px;
+  color:var(--ink-soft);
+  font-style:normal;
+}
+
+/* timeline for life periods */
+.timeline{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  position:relative;
+  margin:20px 0;
+}
+.timeline::before{
+  content:"";
+  position:absolute;
+  left:13px;
+  top:8px;
+  bottom:8px;
+  width:1.5px;
+  background:var(--line);
+}
+.tl-item{
+  position:relative;
+  padding:0 0 28px 42px;
+}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item::before{
+  content:"";
+  position:absolute;
+  left:8px;
+  top:4px;
+  width:11px;height:11px;
+  background:var(--paper-card);
+  border:2.5px solid var(--seal);
+  border-radius:50%;
+}
+.tl-item .tl-period{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12px;
+  color:var(--seal);
+  letter-spacing:0.1em;
+  margin-bottom:4px;
+  font-weight:600;
+}
+.tl-item h4{
+  margin:0 0 8px;
+  font-size:17px;
+  font-weight:700;
+}
+.tl-item .tl-body{
+  font-size:14.5px;
+  line-height:1.95;
+  color:var(--ink);
+}
+.tl-item .tl-body p{margin:0 0 10px;}
+
+/* card grid */
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
+  gap:14px;
+  margin:16px 0;
+}
+.mini-card{
+  background:var(--paper);
+  border:1px solid var(--line-soft);
+  border-radius:10px;
+  padding:16px 18px;
+}
+.mini-card h5{
+  margin:0 0 8px;
+  font-size:14.5px;
+  color:var(--seal);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.mini-card p{
+  margin:0;
+  font-size:13.5px;
+  line-height:1.8;
+  font-family:"Noto Sans TC", sans-serif;
+  color:var(--ink);
+}
+
+/* table */
+.tbl-wrap{overflow-x:auto; margin:16px 0;}
+table.data-tbl{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  min-width:480px;
+}
+table.data-tbl th{
+  background:var(--pine);
+  color:var(--paper-card);
+  font-family:"Noto Sans TC", sans-serif;
+  font-weight:500;
+  padding:10px 12px;
+  text-align:left;
+  letter-spacing:0.04em;
+  font-size:13px;
+}
+table.data-tbl td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--line-soft);
+  vertical-align:top;
+  line-height:1.7;
+}
+table.data-tbl tr:nth-child(even) td{background:rgba(63,74,58,0.025);}
+table.data-tbl td.char{
+  font-size:20px;
+  font-weight:700;
+  text-align:center;
+  color:var(--seal);
+  width:50px;
+}
+table.data-tbl td.pron{
+  text-align:center;
+  color:var(--pine);
+  font-weight:600;
+  width:70px;
+}
+
+/* ===== Poem reading (逐句精讀) ===== */
+.poem-stage{
+  background:
+    linear-gradient(rgba(250,246,236,0.0), rgba(250,246,236,0.0)),
+    repeating-linear-gradient(90deg, transparent 0 39px, rgba(202,190,159,0.35) 39px 40px);
+  background-color:#FBF8EF;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:28px clamp(16px,4vw,40px);
+  margin-bottom:8px;
+}
+.poem-line{
+  border-bottom:1px dashed var(--line-soft);
+  padding:22px 0;
+}
+.poem-line:first-child{padding-top:4px;}
+.poem-line:last-child{border-bottom:none; padding-bottom:4px;}
+
+.poem-line .original{
+  font-size:clamp(19px,3vw,23px);
+  line-height:1.9;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:10px;
+  letter-spacing:0.02em;
+}
+.poem-line .original .annot{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12px;
+  font-weight:400;
+  color:var(--seal);
+  vertical-align:super;
+  margin-left:1px;
+}
+.poem-line .rhet-tags{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+.rhet-tag{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:11.5px;
+  background:rgba(140,31,40,0.08);
+  color:var(--seal);
+  padding:2px 10px;
+  border-radius:10px;
+  letter-spacing:0.04em;
+}
+.rhet-tag.pine-tag{background:rgba(63,74,58,0.08); color:var(--pine);}
+.poem-line .gloss{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:14px;
+  line-height:1.9;
+  color:var(--ink);
+  background:var(--paper-card);
+  border-radius:8px;
+  padding:14px 16px;
+  border:1px solid var(--line-soft);
+}
+.poem-line .gloss + .gloss{margin-top:8px;}
+.poem-line .gloss .label{
+  font-weight:700;
+  color:var(--pine);
+  margin-right:4px;
+}
+.note-list{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px dotted var(--line-soft);
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  line-height:1.9;
+}
+.note-list .note-item{margin-bottom:4px;}
+.note-list .note-item b{color:var(--ink);}
+
+/* theme strip */
+.theme-strip{
+  display:flex;
+  gap:10px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+}
+.theme-pill{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12.5px;
+  background:var(--ink);
+  color:var(--paper-card);
+  padding:6px 16px;
+  border-radius:14px;
+  letter-spacing:0.06em;
+}
+
+/* idiom grid */
+.idiom-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+  gap:10px;
+}
+.idiom-card{
+  border:1px solid var(--line-soft);
+  border-radius:8px;
+  padding:12px 16px;
+  background:var(--paper);
+}
+.idiom-card .word{
+  font-size:17px;
+  font-weight:700;
+  color:var(--seal);
+  margin-bottom:4px;
+}
+.idiom-card .mean{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:13px;
+  color:var(--ink);
+  line-height:1.7;
+}
+
+/* footer */
+.footer-note{
+  text-align:center;
+  margin-top:48px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12px;
+  color:var(--ink-soft);
+  letter-spacing:0.08em;
+}
+
+/* toggle / accordion for author bg */
+.accordion-item{
+  border:1px solid var(--line-soft);
+  border-radius:8px;
+  margin-bottom:10px;
+  overflow:hidden;
+}
+.accordion-head{
+  padding:13px 18px;
+  background:var(--paper);
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:600;
+  font-size:14.5px;
+  user-select:none;
+}
+.accordion-head .arrow{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12px;
+  color:var(--seal);
+  transition:transform 0.25s ease;
+}
+.accordion-item.open .arrow{transform:rotate(90deg);}
+.accordion-body{
+  display:none;
+  padding:0 18px 16px;
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:13.5px;
+  line-height:1.9;
+  color:var(--ink);
+}
+.accordion-item.open .accordion-body{display:block;}
+
+/* scrollbar */
+::-webkit-scrollbar{width:8px; height:8px;}
+::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+
+/* divider seal */
+.divider-seal{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:30px 0;
+  color:var(--line);
+}
+.divider-seal::before,.divider-seal::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:var(--line);
+}
+.divider-seal span{
+  font-size:13px;
+  color:var(--gold);
+  letter-spacing:0.3em;
+  font-family:"Noto Sans TC", sans-serif;
+}
+
+/* ===== HUB / INDEX PAGE ===== */
+.hub-intro{margin-bottom:8px;}
+
+.lesson-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+  gap:18px;
+  margin:20px 0 36px;
+}
+.lesson-card{
+  display:block;
+  position:relative;
+  background:var(--paper-card);
+  border:1px solid var(--line);
+  border-radius:2px 12px 12px 12px;
+  padding:22px 24px 44px;
+  text-decoration:none;
+  color:inherit;
+  box-shadow:0 2px 14px rgba(58,53,48,0.05);
+  transition:all 0.25s ease;
+}
+.lesson-card:hover{
+  border-color:var(--seal-soft);
+  box-shadow:0 6px 22px rgba(58,53,48,0.12);
+  transform:translateY(-3px);
+}
+.lesson-card .lc-num{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:11px;
+  color:var(--gold);
+  letter-spacing:0.12em;
+  margin-bottom:8px;
+}
+.lesson-card h3{
+  margin:0 0 6px;
+  font-size:21px;
+  font-weight:700;
+  letter-spacing:0.04em;
+  color:var(--ink);
+}
+.lesson-card .lc-author{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  margin-bottom:12px;
+}
+.lesson-card .lc-desc{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:13px;
+  line-height:1.8;
+  color:var(--ink);
+  margin-bottom:14px;
+}
+.lesson-card .lc-tags{display:flex; gap:6px; flex-wrap:wrap;}
+.lesson-card .lc-tags span{
+  font-family:"Noto Sans TC", sans-serif;
+  font-size:11px;
+  background:rgba(63,74,58,0.08);
+  color:var(--pine);
+  padding:2px 10px;
+  border-radius:10px;
+}
+.lesson-card .lc-arrow{
+  position:absolute;
+  bottom:18px; right:22px;
+  color:var(--seal);
+  opacity:0.5;
+  font-size:18px;
+  transition:all 0.25s ease;
+}
+.lesson-card:hover .lc-arrow{opacity:1; transform:translateX(3px);}
